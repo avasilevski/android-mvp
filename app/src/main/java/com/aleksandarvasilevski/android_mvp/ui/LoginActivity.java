@@ -6,8 +6,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.aleksandarvasilevski.android_mvp.login.ILoginView;
 import com.aleksandarvasilevski.android_mvp.R;
+import com.aleksandarvasilevski.android_mvp.login.ILoginView;
 import com.aleksandarvasilevski.android_mvp.login.LoginPresenter;
 
 import butterknife.BindView;
@@ -18,7 +18,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
 
     LoginPresenter presenter;
 
-    //Binding the views with butterknife library to eliminate the findViewById calls.
+    //Binding the views with ButterKnife library to eliminate the findViewById calls.
     @BindView(R.id.et_login_email) EditText emailEt;
     @BindView(R.id.et_login_password) EditText passwordEt;
     @BindView(R.id.bt_login) Button loginBt;
@@ -28,8 +28,6 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        //ButterKnife reference to the view.
         ButterKnife.bind(this);
 
         //Presenter reference to the view.
