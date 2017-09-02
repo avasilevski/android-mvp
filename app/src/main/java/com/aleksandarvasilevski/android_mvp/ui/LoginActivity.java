@@ -1,7 +1,9 @@
 package com.aleksandarvasilevski.android_mvp.ui;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -21,8 +23,6 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
     //Binding the views with ButterKnife library to eliminate the findViewById calls.
     @BindView(R.id.et_login_email) EditText emailEt;
     @BindView(R.id.et_login_password) EditText passwordEt;
-    @BindView(R.id.bt_login) Button loginBt;
-    @BindView(R.id.bt_register) Button RegisterBt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +32,6 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
 
         //Presenter reference to the view.
         presenter = new LoginPresenter(this);
-
-        login();
     }
 
     @OnClick(R.id.bt_login)
@@ -41,6 +39,12 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
         String email = emailEt.getText().toString();
         String password = passwordEt.getText().toString();
         presenter.attemptLogin(email, password);
+    }
+
+    @OnClick(R.id.bt_register)
+    void register(){
+        Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
     }
 
     @Override

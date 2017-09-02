@@ -1,7 +1,7 @@
 package com.aleksandarvasilevski.android_mvp.login;
 
 
-public class LoginPresenter implements ILoginPresenter {
+public class LoginPresenter {
 
     private ILoginView view;
     private SynchronousLoginInteractor interactor;
