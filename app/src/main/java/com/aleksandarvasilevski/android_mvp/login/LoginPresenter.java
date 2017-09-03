@@ -1,18 +1,28 @@
 package com.aleksandarvasilevski.android_mvp.login;
 
 
-public class LoginPresenter {
+import android.util.Log;
+
+import com.aleksandarvasilevski.android_mvp.network.IOnTaskComplete;
+import com.aleksandarvasilevski.android_mvp.network.LoginTask;
+
+public class LoginPresenter implements IOnTaskComplete {
 
     private ILoginView view;
-    private SynchronousLoginInteractor interactor;
 
     public LoginPresenter(ILoginView loginView) {
         this.view = loginView;
-        this.interactor = new SynchronousLoginInteractor();
     }
 
     public void attemptLogin(String email, String password){
-        boolean isValid = interactor.validatedCredentials(email, password);
-        if (isValid) view.loginSuccess(); else view.loginFailed();
+        LoginTask loginTask = new LoginTask();
+        loginTask.delegate = this;
+        loginTask.execute("login", email, password);
+    }
+
+    @Override
+    public void loginResult(String output) {
+        if (output.equals("200")) view.loginSuccess(); else view.loginFailed();
+        Log.i("#LOG", "Connection status: " + output);
     }
 }
