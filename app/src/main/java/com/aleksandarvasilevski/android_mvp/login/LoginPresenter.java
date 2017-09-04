@@ -9,6 +9,7 @@ import com.aleksandarvasilevski.android_mvp.network.LoginTask;
 public class LoginPresenter implements IOnTaskComplete {
 
     private ILoginView view;
+    public static boolean isConected = false;
 
     public LoginPresenter(ILoginView loginView) {
         this.view = loginView;
@@ -21,8 +22,13 @@ public class LoginPresenter implements IOnTaskComplete {
     }
 
     @Override
-    public void loginResult(String output) {
-        if (output.equals("200")) view.loginSuccess(); else view.loginFailed();
-        Log.i("#LOG", "Connection status: " + output);
+    public void result(String output) {
+        if (output.equals("ok")) {
+            view.loginSuccess();
+            isConected = true;
+        }else{
+            view.loginFailed();
+            isConected = false;
+        }Log.i("#LOG", "Login status: " + output);
     }
 }

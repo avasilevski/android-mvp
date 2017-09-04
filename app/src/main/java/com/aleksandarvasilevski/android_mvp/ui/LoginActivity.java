@@ -1,5 +1,6 @@
 package com.aleksandarvasilevski.android_mvp.ui;
 
+
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -37,12 +38,15 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
         String email = emailEt.getText().toString();
         String password = passwordEt.getText().toString();
         presenter.attemptLogin(email, password);
+        if (LoginPresenter.isConected);
+            Intent openMain = new Intent(this, MainActivity.class);
+            startActivity(openMain);
     }
 
     @OnClick(R.id.bt_register)
     void register(){
-        Intent intent = new Intent(this, RegisterActivity.class);
-        startActivity(intent);
+        Intent openRegister = new Intent(this, RegisterActivity.class);
+        startActivity(openRegister);
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.aleksandarvasilevski.android_mvp.network;
 
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -20,8 +19,7 @@ public class LoginTask extends AsyncTask <String, Void, String>{
 
     public IOnTaskComplete delegate = null;
 
-    public LoginTask() {
-    }
+    public LoginTask() {}
 
     @Override
     protected String doInBackground(String... params) {
@@ -67,6 +65,6 @@ public class LoginTask extends AsyncTask <String, Void, String>{
 
     @Override
     protected void onPostExecute(String result) {
-        delegate.loginResult(result);
+        delegate.result(result);
     }
 }

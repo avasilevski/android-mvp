@@ -1,8 +1,9 @@
 package com.aleksandarvasilevski.android_mvp.ui;
 
+
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -40,7 +41,10 @@ public class RegisterActivity extends AppCompatActivity implements IRegisterView
         String lastName = lastNameEt.getText().toString();
         String email = emailEt.getText().toString();
         String password = passwordEt.getText().toString();
-        presenter.attemptRegister(firstName, lastName, email, password);
+        presenter.attemptRegister(email, password, firstName, lastName);
+        if (RegisterPresenter.isRegistered);
+            Intent openLogin = new Intent(this, LoginActivity.class);
+            startActivity(openLogin);
     }
 
     @Override
@@ -49,7 +53,7 @@ public class RegisterActivity extends AppCompatActivity implements IRegisterView
     }
 
     @Override
-    public void registerFalied() {
+    public void registerFailed() {
         Toast.makeText(this, "Register Failed", Toast.LENGTH_SHORT).show();
     }
 }
