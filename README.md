@@ -1,2 +1,2 @@
 # android-mvp
-Clean code using MVP architecture and butterknife library
+MVP architecture with Butterknife and Retrofite library
