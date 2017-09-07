@@ -3,10 +3,14 @@ package com.aleksandarvasilevski.android_mvp.register;
 
 import android.util.Log;
 
-import com.aleksandarvasilevski.android_mvp.network.IOnTaskComplete;
-import com.aleksandarvasilevski.android_mvp.network.RegisterTask;
+import com.aleksandarvasilevski.android_mvp.network.RestClient;
+import com.aleksandarvasilevski.android_mvp.network.model.AuthenticationResponse;
 
-public class RegisterPresenter implements IOnTaskComplete {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class RegisterPresenter {
 
     private IRegisterView view;
     public static boolean isRegistered = false;
@@ -16,19 +20,26 @@ public class RegisterPresenter implements IOnTaskComplete {
     }
 
     public void attemptRegister(String email, String password, String firstname, String lastname){
-        RegisterTask registerTask = new RegisterTask();
-        registerTask.delegate = this;
-        registerTask.execute("register", email, password, firstname, lastname);
-    }
+        Call<AuthenticationResponse> loginCall = new RestClient().getRestService().registerUser(email, password, firstname, lastname);
+        loginCall.enqueue(new Callback<AuthenticationResponse>() {
+            @Override
+            public void onResponse(Call<AuthenticationResponse> call, Response<AuthenticationResponse> response) {
+                if (response.body() != null){
+                    switch (response.code()){
+                        case 200:
+                            view.registerSuccess();
+                            isRegistered = true;
+                    }
+                    Log.i("#Log", "Response Code: " + response.code());
+                }
+            }
 
-    @Override
-    public void result(String output) {
-        if (output.equals("ok")){
-            view.registerSuccess();
-            isRegistered = true;
-        }else{
-            view.registerFailed();
-            isRegistered = false;
-        }Log.i("#LOG", "Register status: " + output);
+            @Override
+            public void onFailure(Call<AuthenticationResponse> call, Throwable t) {
+                view.registerSuccess();
+                isRegistered = false;
+                Log.i("#Log", "Not Registered " + t.toString());
+            }
+        });
     }
 }

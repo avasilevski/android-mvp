@@ -3,11 +3,9 @@ package com.aleksandarvasilevski.android_mvp.login;
 
 import android.util.Log;
 
-import com.aleksandarvasilevski.android_mvp.network.ILoginApiClient;
-import com.aleksandarvasilevski.android_mvp.network.LoginApiClient;
+import com.aleksandarvasilevski.android_mvp.network.RestClient;
+import com.aleksandarvasilevski.android_mvp.network.model.AuthenticationResponse;
 import com.aleksandarvasilevski.android_mvp.network.model.User;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,32 +21,26 @@ public class LoginPresenter {
     }
 
     public void attemptLogin(String email, String password){
-        ILoginApiClient apiClient = LoginApiClient.getLoginApiClient().create(ILoginApiClient.class);
-        Call<List<User>> call = apiClient.getUsers();
-        call.enqueue(new Callback<List<User>>() {
+        Call<AuthenticationResponse> loginCall = new RestClient().getRestService().loginUser(email, password);
+        loginCall.enqueue(new Callback<AuthenticationResponse>() {
             @Override
-            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-                view.loginSuccess();
-                isConected = true;
-                Log.i("#LOG", "Connected");
+            public void onResponse(Call<AuthenticationResponse> call, Response<AuthenticationResponse> response) {
+                if (response.body() != null){
+                    switch (response.code()){
+                        case 200:
+                            view.loginSuccess();
+                            isConected = true;
+                    }
+                    Log.i("#Log", "Response Code: " + response.code());
+                }
             }
+
             @Override
-            public void onFailure(Call<List<User>> call, Throwable t) {
+            public void onFailure(Call<AuthenticationResponse> call, Throwable t) {
                 view.loginFailed();
                 isConected = false;
-                Log.i("#LOG", "Not Connected");
+                Log.i("#Log", "Not Connected " + t.toString());
             }
-        });;
+        });
     }
-
-//    @Override
-//    public void result(String output) {
-//        if (output.equals("ok")) {
-//            view.loginSuccess();
-//            isConected = true;
-//        }else{
-//            view.loginFailed();
-//            isConected = false;
-//        }Log.i("#LOG", "Login status: " + output);
-//    }
 }

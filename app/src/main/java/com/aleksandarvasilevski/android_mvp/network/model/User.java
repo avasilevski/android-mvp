@@ -12,25 +12,20 @@ public class User {
     private String password;
 
     @SerializedName("firstname")
-    private String firstName;
+    private String firstname;
 
     @SerializedName("lastname")
-    private String lastName;
+    private String lastname;
 
-
-    public String getEmail() {
-        return email;
+    public User(String email, String password, String firstname, String lastname){
+        this.email = email;
+        this.password = password;
+        this.firstname = firstname;
+        this.lastname = lastname;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
+    public User(String email, String password){
+        this.email = email;
+        this.password = password;
     }
 }
