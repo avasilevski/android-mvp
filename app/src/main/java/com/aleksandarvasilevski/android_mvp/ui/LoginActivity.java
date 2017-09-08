@@ -38,7 +38,8 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
         String email = emailEt.getText().toString();
         String password = passwordEt.getText().toString();
         presenter.attemptLogin(email, password);
-        if (LoginPresenter.isConected);
+        if (LoginPresenter.isConected)
+            loginSuccess();
             Intent openMain = new Intent(this, MainActivity.class);
             startActivity(openMain);
     }
